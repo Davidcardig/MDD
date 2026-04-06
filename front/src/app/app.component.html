@@ -1,2 +1,2 @@
-<app-navbar *ngIf="!(isHome && (isLogged$ | async) === false)"></app-navbar>
+<app-navbar [class.hide-on-mobile]="isAuthPage" *ngIf="!(isHome && (isLogged$ | async) === false)"></app-navbar>
 <router-outlet></router-outlet>

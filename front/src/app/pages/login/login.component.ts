@@ -10,7 +10,6 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-  hide = true;
   errorMessage = '';
   loading = false;
 

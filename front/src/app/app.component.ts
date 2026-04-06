@@ -19,4 +19,8 @@ export class AppComponent {
   get isHome(): boolean {
     return this.router.url === '/';
   }
+
+  get isAuthPage(): boolean {
+    return this.router.url === '/login' || this.router.url === '/register';
+  }
 }

@@ -7,3 +7,9 @@ mat-card, .mat-card {
   box-shadow: none !important;
 }
 
+@media (max-width: 599px) {
+  app-navbar.hide-on-mobile {
+    display: none;
+  }
+}
+
