@@ -69,6 +69,8 @@
 
 .post-content {
   white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
   line-height: 1.8;
   font-size: 15px;
   color: rgba(0,0,0,0.85);
@@ -117,6 +119,8 @@
   color: rgba(0,0,0,0.8);
   margin: 0 0 0 28px;
   white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .no-comment {
@@ -149,9 +153,6 @@ button[type="submit"].send-btn {
     fill: rgba(119, 99, 197, 1);
   }
 
-  &:disabled svg {
-    fill: rgba(0, 0, 0, 0.26);
-  }
 
   mat-spinner { margin: 0 auto; }
 }

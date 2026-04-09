@@ -1,6 +1,7 @@
-package com.openclassrooms.mddapi;
+package com.openclassrooms.mddapi.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.openclassrooms.mddapi.config.SecurityConfig;
 import com.openclassrooms.mddapi.controller.AuthController;
 import com.openclassrooms.mddapi.dto.AuthResponse;
 import com.openclassrooms.mddapi.dto.LoginRequest;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,17 +24,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Tests d'intégration — couche HTTP de AuthController.
- * Vérifie le routage, la validation des @Valid, la sécurité et le GlobalExceptionHandler.
+ * Tests de la couche HTTP — AuthController.
+ * Vérifie le routage, la validation @Valid, la sécurité et le GlobalExceptionHandler.
  */
 @WebMvcTest(AuthController.class)
-class AuthControllerIT {
+@Import(SecurityConfig.class)
+class AuthControllerTest {
 
     @Autowired private MockMvc mockMvc;
     @Autowired private ObjectMapper objectMapper;
 
     @MockBean private AuthService authService;
-    // Beans requis par SecurityConfig (JwtAuthenticationFilter) — non utilisés directement dans les tests
     @MockBean private UserDetailsServiceImpl userDetailsService;
     @MockBean private JwtTokenProvider jwtTokenProvider;
 
@@ -66,7 +68,7 @@ class AuthControllerIT {
     @Test
     void register_avecEmailInvalide_retourne400() throws Exception {
         RegisterRequest request = RegisterRequest.builder()
-                .email("pas-un-email")   // format invalide → @Email échoue
+                .email("pas-un-email")
                 .username("testuser")
                 .password("Password1!")
                 .build();
@@ -96,5 +98,4 @@ class AuthControllerIT {
                 .andExpect(jsonPath("$.message").value("Invalid email/username or password"));
     }
 }
-
 

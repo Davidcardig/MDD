@@ -1,4 +1,4 @@
-<div class="profile-container">
+l<div class="profile-container">
   <mat-card class="profile-card">
     <mat-card-header>
       <div class="header-content">
@@ -20,15 +20,14 @@
       <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
 
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Nom d'utilisateur</mat-label>
           <input
             matInput
             type="text"
             formControlName="username"
-            placeholder="Votre nom d'utilisateur"
+            placeholder="Username"
             autocomplete="username"
           />
-          <mat-icon matSuffix>person</mat-icon>
+
           <mat-error *ngIf="profileForm.get('username')?.hasError('minlength')">
             Le nom d'utilisateur doit contenir au moins 3 caractères
           </mat-error>
@@ -38,37 +37,33 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Email</mat-label>
           <input
             matInput
             type="email"
             formControlName="email"
-            placeholder="Votre adresse email"
+            placeholder="email@email.fr"
             autocomplete="email"
           />
-          <mat-icon matSuffix>email</mat-icon>
           <mat-error *ngIf="profileForm.get('email')?.hasError('email')">
             Veuillez saisir un email valide
           </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Nouveau mot de passe</mat-label>
           <input
             matInput
             [type]="hidePassword ? 'password' : 'text'"
             formControlName="password"
-            placeholder="Laisser vide pour ne pas modifier"
+            placeholder="Mot de passe"
             autocomplete="new-password"
           />
           <button
             mat-icon-button
             matSuffix
             type="button"
-            (click)="hidePassword = !hidePassword"
-            [attr.aria-label]="'Afficher le mot de passe'"
+
           >
-            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+
           </button>
           <mat-error *ngIf="profileForm.get('password')?.hasError('pattern')">
             8 caractères min. avec majuscule, minuscule, chiffre et caractère spécial
@@ -108,22 +103,18 @@
       </div>
 
       <div class="subscriptions-list" *ngIf="subscribedThemes.length > 0">
-        <mat-card class="subscription-item" *ngFor="let theme of subscribedThemes">
-          <div class="subscription-content">
-            <div class="subscription-info">
-              <span class="subscription-title">{{ theme.title }}</span>
-              <span class="subscription-description">{{ theme.description }}</span>
-            </div>
-            <button
-              mat-stroked-button
-              color="warn"
-              (click)="unsubscribe(theme)"
-              class="unsubscribe-btn"
-            >
-              Se désabonner
-            </button>
-          </div>
-        </mat-card>
+        <div class="subscription-item" *ngFor="let theme of subscribedThemes">
+          <span class="subscription-title">{{ theme.title }}</span>
+          <span class="subscription-description">{{ theme.description }}</span>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="unsubscribe(theme)"
+            class="unsubscribe-btn"
+          >
+            Se désabonner
+          </button>
+        </div>
       </div>
     </mat-card-content>
 

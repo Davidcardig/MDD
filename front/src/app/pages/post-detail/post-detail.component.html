@@ -55,16 +55,12 @@
       <!-- Formulaire commentaire -->
       <form [formGroup]="commentForm" (ngSubmit)="submitComment()" class="comment-form">
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Ajouter un commentaire</mat-label>
-          <textarea matInput formControlName="content" placeholder="Votre commentaire…"
+          <textarea matInput formControlName="content" placeholder="Écrivez ici votre commentaire"
             rows="3" cdkTextareaAutosize cdkAutosizeMinRows="3"></textarea>
-          <mat-error *ngIf="commentForm.get('content')?.hasError('required')">
-            Le commentaire ne peut pas être vide
-          </mat-error>
         </mat-form-field>
 
         <button mat-icon-button color="primary" type="submit"
-          [disabled]="commentForm.invalid || submittingComment"
+          [disabled]="submittingComment"
           aria-label="Envoyer le commentaire"
           class="send-btn">
           <mat-spinner diameter="20" *ngIf="submittingComment"></mat-spinner>

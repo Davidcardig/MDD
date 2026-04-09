@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostResponse, CommentResponse } from 'src/app/models/post.model';
 import { PostService } from 'src/app/services/post.service';
@@ -27,7 +27,7 @@ export class PostDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.commentForm = this.fb.group({
-      content: ['', Validators.required]
+      content: ['']
     });
 
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -46,7 +46,7 @@ export class PostDetailComponent implements OnInit {
   }
 
   submitComment(): void {
-    if (this.commentForm.invalid || !this.post) return;
+    if (!this.post) return;
     this.submittingComment = true;
 
     this.postService.addComment(this.post.id, this.commentForm.value).subscribe({
