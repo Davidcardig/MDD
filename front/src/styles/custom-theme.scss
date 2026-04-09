@@ -1,0 +1,55 @@
+@use '@angular/material' as mat;
+
+// Inclure les styles de base de Material une seule fois
+@include mat.core();
+
+// Palette personnalisée : couleur primaire rgba(119, 99, 197, 1) = #7763C5
+$custom-primary-palette: (
+  50:  #ede9f8,
+  100: #d2c9ef,
+  200: #b3a6e5,
+  300: #9483da,
+  400: #7d68d2,
+  500: #7763c5,
+  600: #6f5bbd,
+  700: #6451b3,
+  800: #5a47a6,
+  900: #4a338e,
+  A100: #e3dcff,
+  A200: #b9a9ff,
+  A400: #8f76ff,
+  A700: #7c5fff,
+  contrast: (
+    50:  rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: white,
+    A700: white,
+  )
+);
+
+$custom-primary: mat.define-palette($custom-primary-palette, 500);
+$custom-accent:  mat.define-palette(mat.$amber-palette, A200, A100, A400);
+$custom-warn:    mat.define-palette(mat.$red-palette);
+
+$custom-theme: mat.define-light-theme((
+  color: (
+    primary: $custom-primary,
+    accent:  $custom-accent,
+    warn:    $custom-warn,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+@include mat.all-component-themes($custom-theme);
+
