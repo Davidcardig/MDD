@@ -1,4 +1,4 @@
-l<div class="profile-container">
+<div class="profile-container">
   <mat-card class="profile-card">
     <mat-card-header>
       <div class="header-content">
@@ -20,54 +20,22 @@ l<div class="profile-container">
       <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
 
         <mat-form-field appearance="outline" class="full-width">
-          <input
-            matInput
-            type="text"
-            formControlName="username"
-            placeholder="Username"
-            autocomplete="username"
-          />
-
-          <mat-error *ngIf="profileForm.get('username')?.hasError('minlength')">
-            Le nom d'utilisateur doit contenir au moins 3 caractères
-          </mat-error>
-          <mat-error *ngIf="profileForm.get('username')?.hasError('maxlength')">
-            Le nom d'utilisateur ne peut pas dépasser 50 caractères
-          </mat-error>
+          <input matInput type="text" formControlName="username" placeholder="Username" autocomplete="username" />
+          <mat-error *ngIf="profileForm.get('username')?.hasError('minlength')">Le nom d'utilisateur doit contenir au moins 3 caractères</mat-error>
+          <mat-error *ngIf="profileForm.get('username')?.hasError('maxlength')">Le nom d'utilisateur ne peut pas dépasser 50 caractères</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
-          <input
-            matInput
-            type="email"
-            formControlName="email"
-            placeholder="email@email.fr"
-            autocomplete="email"
-          />
-          <mat-error *ngIf="profileForm.get('email')?.hasError('email')">
-            Veuillez saisir un email valide
-          </mat-error>
+          <input matInput type="email" formControlName="email" placeholder="email@email.fr" autocomplete="email" />
+          <mat-error *ngIf="profileForm.get('email')?.hasError('email')">Veuillez saisir un email valide</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
-          <input
-            matInput
-            [type]="hidePassword ? 'password' : 'text'"
-            formControlName="password"
-            placeholder="Mot de passe"
-            autocomplete="new-password"
-          />
-          <button
-            mat-icon-button
-            matSuffix
-            type="button"
-
-          >
-
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" placeholder="Mot de passe" autocomplete="new-password" />
+          <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-          <mat-error *ngIf="profileForm.get('password')?.hasError('pattern')">
-            8 caractères min. avec majuscule, minuscule, chiffre et caractère spécial
-          </mat-error>
+          <mat-error *ngIf="profileForm.get('password')?.hasError('pattern')">8 caractères min. avec majuscule, minuscule, chiffre et caractère spécial</mat-error>
         </mat-form-field>
 
         <div class="success-message" *ngIf="successMessage">
@@ -80,13 +48,7 @@ l<div class="profile-container">
         </div>
 
         <div class="actions">
-          <button
-            mat-raised-button
-            color="primary"
-            type="submit"
-            [disabled]="profileForm.invalid || saving"
-            class="full-width"
-          >
+          <button mat-raised-button color="primary" type="submit" [disabled]="profileForm.invalid || saving" class="full-width">
             <span *ngIf="!saving">Enregistrer les modifications</span>
             <mat-spinner *ngIf="saving" diameter="20"></mat-spinner>
           </button>
@@ -106,12 +68,7 @@ l<div class="profile-container">
         <div class="subscription-item" *ngFor="let theme of subscribedThemes">
           <span class="subscription-title">{{ theme.title }}</span>
           <span class="subscription-description">{{ theme.description }}</span>
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="unsubscribe(theme)"
-            class="unsubscribe-btn"
-          >
+          <button mat-raised-button color="primary" (click)="unsubscribe(theme)" class="unsubscribe-btn">
             Se désabonner
           </button>
         </div>

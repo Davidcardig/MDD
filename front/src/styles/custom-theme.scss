@@ -3,18 +3,18 @@
 // Inclure les styles de base de Material une seule fois
 @include mat.core();
 
-// Palette personnalisée : couleur primaire rgba(119, 99, 197, 1) = #7763C5
+// Palette personnalisée : couleur primaire rgb(98, 81, 163) = #6251a3
 $custom-primary-palette: (
-  50:  #ede9f8,
-  100: #d2c9ef,
-  200: #b3a6e5,
-  300: #9483da,
-  400: #7d68d2,
-  500: #7763c5,
-  600: #6f5bbd,
-  700: #6451b3,
-  800: #5a47a6,
-  900: #4a338e,
+  50:  #ede9f5,
+  100: #cfc8e8,
+  200: #aea3d9,
+  300: #8d7dca,
+  400: #7866be,
+  500: #6251a3,
+  600: #5a499b,
+  700: #503f91,
+  800: #463688,
+  900: #342577,
   A100: #e3dcff,
   A200: #b9a9ff,
   A400: #8f76ff,

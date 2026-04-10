@@ -3,12 +3,11 @@
   <!-- ── Drawer mobile ── -->
   <mat-sidenav #sidenav mode="over" position="end" class="mobile-sidenav">
     <ng-container *ngIf="isLogged$ | async">
-      <div class="sidenav-header">
-        <img src="/assets/logo_p6.png" alt="MDD Logo" class="sidenav-logo" />
-      </div>
-
-      <div class="sidenav-body">
+      <div class="sidenav-wrapper">
         <div class="sidenav-links">
+          <button class="sidenav-link logout-link" (click)="logout(); sidenav.close()">
+            <span>Se déconnecter</span>
+          </button>
           <a class="sidenav-link"
              routerLink="/"
              routerLinkActive="active-link"
@@ -24,17 +23,12 @@
           </a>
         </div>
 
-        <div class="sidenav-footer">
-          <button class="sidenav-link logout-link" (click)="logout(); sidenav.close()">
-            <span>Se déconnecter</span>
-          </button>
-          <a class="sidenav-link profile-link"
-             routerLink="/profile"
-             routerLinkActive="active-link"
-             (click)="sidenav.close()">
-            <mat-icon>account_circle</mat-icon>
-          </a>
-        </div>
+        <a class="sidenav-profile"
+           routerLink="/profile"
+           routerLinkActive="active-link"
+           (click)="sidenav.close()">
+          <mat-icon>account_circle</mat-icon>
+        </a>
       </div>
     </ng-container>
   </mat-sidenav>

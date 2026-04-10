@@ -56,16 +56,26 @@
 
 .themes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
+
+  @media (max-width: 599px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .theme-card {
   display: flex;
   flex-direction: column;
+  background-color: #e8e8e8 !important;
+
+  mat-card-header {
+    padding: 16px 16px 0;
+  }
 
   mat-card-content {
     flex: 1;
+    padding: 0 32px;
   }
 
   .theme-description {
@@ -77,23 +87,16 @@
 
   mat-card-actions {
     padding: 8px 16px 16px;
+    display: flex;
+    justify-content: center;
   }
 }
-
-.subscribed-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: #2e7d32;
-  font-size: 14px;
-  font-weight: 500;
-
   mat-icon {
     font-size: 18px;
     width: 18px;
     height: 18px;
   }
-}
+
 
 .empty-message {
   grid-column: 1 / -1;

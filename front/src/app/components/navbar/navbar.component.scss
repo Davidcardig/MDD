@@ -74,10 +74,10 @@
 
 /* Page active : texte en violet */
 .active-nav {
-  color: #7b1fa2 !important;
+  color:  rgb(98, 81, 163);
 
   mat-icon {
-    color: #7b1fa2;
+    color:  rgb(98, 81, 163);
   }
 }
 
@@ -85,7 +85,8 @@
 .hamburger-btn {
   display: none;
   color: #333;
-  margin-right: 8px;
+  font-size: 20px;
+  border: none !important;
 
   @media (max-width: 599px) {
     display: flex;
@@ -104,9 +105,9 @@
 
 /* Page active : texte en violet */
 .active-nav {
-  color: #7b1fa2 !important;
+  color:  rgb(98, 81, 163);
 
   mat-icon {
-    color: #7b1fa2;
+    color:  rgb(98, 81, 163);
   }
 }

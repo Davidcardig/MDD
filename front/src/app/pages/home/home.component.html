@@ -50,10 +50,9 @@
 
       <!-- Aucun abonnement / aucun article -->
       <div class="empty-state" *ngIf="!loading && displayedPosts.length === 0">
-        <mat-icon class="empty-icon">article</mat-icon>
         <p>Aucun article à afficher.</p>
         <p class="empty-hint">Abonnez-vous à des thèmes pour voir leurs articles ici.</p>
-        <button mat-raised-button color="primary" routerLink="/themes">Voir les thèmes</button>
+
       </div>
 
     </div>
