@@ -1,11 +1,13 @@
 <div class="register-container">
-  <button mat-icon-button class="back-btn" (click)="goToHome()" aria-label="Retour à l'accueil">
-    <span class="material-symbols-outlined">arrow_left_alt</span>
-  </button>
   <mat-card class="register-card">
     <div class="page-header">
       <img src="/assets/logo_p6.png" alt="MDD Logo" class="mobile-logo" />
-      <h2 class="page-title">Inscription</h2>
+      <div class="title-row">
+        <button mat-icon-button class="back-btn" (click)="goToHome()" aria-label="Retour à l'accueil">
+          <span class="material-symbols-outlined">arrow_left_alt</span>
+        </button>
+        <h2 class="page-title">Inscription</h2>
+      </div>
     </div>
 
     <mat-card-content>

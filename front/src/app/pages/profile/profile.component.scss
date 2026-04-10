@@ -1,8 +1,18 @@
 .back-arrow-btn {
-  position: fixed;
-  top: 104px;
-  left: 25px;
-  z-index: 99;
+  position: absolute;
+  left: 0;
+  width: 52px !important;
+  height: 52px !important;
+  line-height: 52px !important;
+
+  mat-icon { font-size: 44px; width: 44px; height: 44px; }
+
+  @media (min-width: 600px) {
+    position: fixed;
+    top: 104px;
+    left: 25px;
+    z-index: 99;
+  }
 }
 
 .profile-container {
@@ -22,18 +32,16 @@
 }
 
 .header-content {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   margin-bottom: 16px;
 
-  mat-card-title { text-align: center; font-size: 24px; font-weight: 600; margin-bottom: 4px; }
+  mat-card-title { text-align: center; font-size: 24px; font-weight: 600;}
 
-  mat-card-subtitle {
-    font-size: 14px;
-    color: rgba(0, 0, 0, 0.6);
-  }
+  mat-card-subtitle { font-size: 14px; color: rgba(0, 0, 0, 0.6); }
 }
 
 ::ng-deep .profile-card mat-card-header {
@@ -63,11 +71,7 @@
   border-radius: 4px;
   color: #2e7d32;
 
-  mat-icon {
-    font-size: 20px;
-    height: 20px;
-    width: 20px;
-  }
+  mat-icon { font-size: 20px; height: 20px; width: 20px; }
 }
 
 .error-message {
@@ -77,9 +81,7 @@
   border-radius: 4px;
   text-align: center;
 
-  mat-error {
-    margin: 0;
-  }
+  mat-error { margin: 0; }
 }
 
 .actions {
@@ -93,9 +95,7 @@
     font-size: 15px;
     font-weight: 500;
 
-    mat-spinner {
-      margin: 0 auto;
-    }
+    mat-spinner { margin: 0 auto; }
   }
 }
 
@@ -108,11 +108,7 @@ mat-card-actions {
     display: flex;
     justify-content: center;
 
-    button {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+    button { display: flex; align-items: center; gap: 6px; }
   }
 }
 
@@ -134,9 +130,7 @@ mat-card-actions {
   padding: 16px 0 8px;
   color: rgba(0, 0, 0, 0.6);
 
-  p {
-    margin-bottom: 12px;
-  }
+  p { margin-bottom: 12px; }
 }
 
 .subscriptions-list {
@@ -144,9 +138,7 @@ mat-card-actions {
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 
-  @media (max-width: 599px) {
-    grid-template-columns: 1fr;
-  }
+  @media (max-width: 599px) { grid-template-columns: 1fr; }
 }
 
 .subscription-item {
@@ -185,6 +177,4 @@ mat-card-actions {
     align-self: center;
   }
 }
-
-
 

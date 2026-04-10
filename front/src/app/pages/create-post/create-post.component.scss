@@ -1,8 +1,30 @@
 .back-arrow-btn {
-  position: fixed;
-  top: 104px;
-  left: 25px;
-  z-index: 99;
+  position: absolute;
+  left: 0;
+  width: 52px !important;
+  height: 52px !important;
+  line-height: 52px !important;
+
+  mat-icon { font-size: 44px; width: 44px; height: 44px; }
+
+  @media (min-width: 600px) {
+    position: fixed;
+    top: 104px;
+    left: 25px;
+    z-index: 99;
+  }
+}
+
+.header-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 1px;
+  padding-top: 20px;
+
+  mat-card-title { font-size: 22px; font-weight: 700; text-align: center; }
 }
 
 .page-container {
@@ -19,15 +41,6 @@
   box-shadow: none !important;
 }
 
-.header-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 15px;
-
-  mat-card-title { font-size: 22px; font-weight: 700; margin: 0; text-align: center; }
-}
 
 ::ng-deep .form-card mat-card-header {
   display: block;
