@@ -80,8 +80,6 @@ public class AuthService {
                 loginRequest.getEmailOrUsername()
         ).orElseThrow(() -> new RuntimeException("User not found"));
 
-        log.info("User logged in successfully: {}", user.getUsername());
-
         return new AuthResponse(jwt, user.getId(), user.getUsername(), user.getEmail());
     }
 }

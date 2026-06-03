@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
     this.applySort();
   }
 
-  private applySort(): void {
+   applySort(): void {
     this.displayedPosts = [...this.posts].sort((a, b) => {
       const diff =
         new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();

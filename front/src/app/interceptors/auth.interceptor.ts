@@ -20,7 +20,6 @@ export class AuthInterceptor implements HttpInterceptor {
   ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    // Récupération lazy de AuthService pour éviter la dépendance circulaire
     const authService = this.injector.get(AuthService);
 
     // Ajouter le token JWT aux requêtes
@@ -36,7 +35,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
-          // Token invalide ou expiré
+          // Token invalide ou expiré par la reqête 401
           authService.logout();
           this.router.navigate(['/login']);
         }

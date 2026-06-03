@@ -22,6 +22,10 @@
   justify-content: flex-start;
   width: 100%;
   margin-bottom: 6px;
+
+  @media (max-width: 599px) {
+    padding-left: 58px;
+  }
 }
 
 .page-container {

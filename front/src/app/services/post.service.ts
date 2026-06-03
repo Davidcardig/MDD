@@ -11,7 +11,7 @@ export class PostService {
 
   constructor(private http: HttpClient) {}
 
-  /** Fil d'actualité : articles des thèmes auxquels l'utilisateur est abonné */
+  /* Liste d'article auquel l'utilisateur est abonné */
   getFeed(): Observable<PostResponse[]> {
     return this.http.get<PostResponse[]>(`${this.apiUrl}/feed`);
   }

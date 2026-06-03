@@ -50,12 +50,7 @@
         </div>
 
         <div class="actions">
-          <button
-            mat-raised-button
-            color="primary"
-            type="submit"
-            [disabled]="loginForm.invalid || loading"
-          >
+          <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || loading">
             <span *ngIf="!loading">Se connecter</span>
             <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
           </button>
