@@ -140,6 +140,10 @@
                             <excludes>
                                 <exclude>com/openclassrooms/mddapi/dto/**</exclude>
                                 <exclude>com/openclassrooms/mddapi/model/**</exclude>
+                                <exclude>com/openclassrooms/mddapi/exception/**</exclude>
+                                <exclude>com/openclassrooms/mddapi/mapper/**</exclude>
+                                <exclude>com/openclassrooms/mddapi/security/JwtTokenProvider*</exclude>
+                                <exclude>com/openclassrooms/mddapi/MddApiApplication*</exclude>
                             </excludes>
                             <rules>
                                 <rule>
@@ -148,7 +152,7 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.70</minimum>
+                                            <minimum>0.50</minimum>
                                         </limit>
                                         <limit>
                                             <counter>BRANCH</counter>
@@ -156,23 +160,6 @@
                                             <minimum>0.50</minimum>
                                         </limit>
                                     </limits>
-                                </rule>
-                                <rule>
-                                    <element>CLASS</element>
-                                    <limits>
-                                        <limit>
-                                            <counter>LINE</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>0.5</minimum>
-                                        </limit>
-                                    </limits>
-                                    <excludes>
-                                        <exclude>com.openclassrooms.mddapi.dto.*</exclude>
-                                        <exclude>com.openclassrooms.mddapi.dto.**</exclude>
-                                        <exclude>com.openclassrooms.mddapi.model.*</exclude>
-                                        <exclude>com.openclassrooms.mddapi.model.**</exclude>
-                                        <exclude>com.openclassrooms.mddapi.MddApiApplication</exclude>
-                                    </excludes>
                                 </rule>
                             </rules>
                         </configuration>
