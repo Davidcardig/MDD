@@ -120,10 +120,12 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           context: ./back
+          file: ./back/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/mdd-back:latest
       - uses: docker/build-push-action@v5
         with:
           context: ./front
+          file: ./front/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/mdd-front:latest
