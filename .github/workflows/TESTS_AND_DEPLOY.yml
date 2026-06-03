@@ -2,7 +2,7 @@ name: CI/CD Pipeline — MDD
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, DEV-FIX-WORKFLOW ]
   workflow_dispatch:
 
 env:
@@ -110,7 +110,7 @@ jobs:
     name: Build & Push Docker Images
     runs-on: ubuntu-latest
     needs: [ sonar-backend, sonar-frontend ]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/DEV-FIX-WORKFLOW') && github.event_name == 'push'
     steps:
       - uses: actions/checkout@v4
       - uses: docker/login-action@v3
@@ -120,7 +120,7 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           context: ./back
-          file: ./back/Dockerfile-back
+          file: ./back/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/mdd-back:latest
       - uses: docker/build-push-action@v5
