@@ -21,6 +21,9 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Définition des permissions pour mvnw
+        run: chmod +x back/mvnw
+
       - name: Injection des variables d'environnement de test
         run: |
           echo "DB_URL=jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE" >> $GITHUB_ENV

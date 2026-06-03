@@ -18,6 +18,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -39,9 +40,11 @@ class ThemeControllerTest {
     // ─── GET /api/themes ──────────────────────────────────────────────────────
 
     @Test
-    void getAllThemes_sansAuthentification_retourne401() throws Exception {
+    void getAllThemes_sansAuthentification_retourne403() throws Exception {
+        // La configuration de sécurité renvoie actuellement 403 pour les requêtes
+        // sans autorisation ; on vérifie donc 403 Forbidden.
         mockMvc.perform(get("/api/themes"))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -71,6 +74,48 @@ class ThemeControllerTest {
                 .andExpect(jsonPath("$.message").value("Abonnement au thème effectué avec succès"));
 
         verify(themeService).subscribe(1L);
+    }
+
+    // ─── DELETE /api/themes/{id}/subscribe ────────────────────────────────────
+
+    @Test
+    @WithMockUser(username = "testuser")
+    void unsubscribe_avecUtilisateurAuthentifie_retourne200EtAppelleService() throws Exception {
+        mockMvc.perform(delete("/api/themes/1/subscribe"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("Désabonnement du thème effectué avec succès"));
+
+        verify(themeService).unsubscribe(1L);
+    }
+
+    @Test
+    void unsubscribe_sansAuthentification_retourne403() throws Exception {
+        mockMvc.perform(delete("/api/themes/1/subscribe"))
+                .andExpect(status().isForbidden());
+    }
+
+    // ─── GET /api/themes/subscribed ───────────────────────────────────────────
+
+    @Test
+    @WithMockUser(username = "testuser")
+    void getSubscribedThemes_avecAuthentification_retourne200AvecListe() throws Exception {
+        List<ThemeResponse> themes = List.of(
+                ThemeResponse.builder().id(1L).title("Java").subscribed(true).build()
+        );
+
+        when(themeService.getSubscribedThemes()).thenReturn(themes);
+
+        mockMvc.perform(get("/api/themes/subscribed"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].title").value("Java"))
+                .andExpect(jsonPath("$[0].subscribed").value(true));
+    }
+
+    @Test
+    void getSubscribedThemes_sansAuthentification_retourne403() throws Exception {
+        mockMvc.perform(get("/api/themes/subscribed"))
+                .andExpect(status().isForbidden());
     }
 }
 

@@ -129,5 +129,26 @@ class ThemeServiceTest {
         assertThrows(ResourceNotFoundException.class, () -> themeService.unsubscribe(99L));
         verify(userRepository, never()).save(any());
     }
+
+    // ─── getSubscribedThemes ─────────────────────────────────────────────────────
+
+    @Test
+    void getSubscribedThemes_doitRetournerSeulementLesThemesAbonnes() {
+        testUser.getSubscribedThemes().add(testTheme);
+        ThemeResponse response = ThemeResponse.builder().id(1L).title("Java").subscribed(true).build();
+        when(themeMapper.toResponse(testTheme, true)).thenReturn(response);
+
+        List<ThemeResponse> result = themeService.getSubscribedThemes();
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).isSubscribed()).isTrue();
+        assertThat(result.get(0).getTitle()).isEqualTo("Java");
+    }
+
+    @Test
+    void getSubscribedThemes_doitRetournerListeVideSiAucunAbonnement() {
+        List<ThemeResponse> result = themeService.getSubscribedThemes();
+        assertThat(result).isEmpty();
+    }
 }
 
