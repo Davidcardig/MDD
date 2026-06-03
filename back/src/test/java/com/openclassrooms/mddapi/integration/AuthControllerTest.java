@@ -22,6 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 /**
  * Tests de la couche HTTP — AuthController.
@@ -82,6 +83,30 @@ class AuthControllerTest {
     // ─── login ────────────────────────────────────────────────────────────────
 
     @Test
+    void login_avecCredentialsValides_retourne200AvecToken() throws Exception {
+        AuthResponse response = AuthResponse.builder()
+                .token("jwt-login-token")
+                .id(1L)
+                .username("testuser")
+                .email("test@test.com")
+                .build();
+
+        when(authService.login(any())).thenReturn(response);
+
+        LoginRequest request = LoginRequest.builder()
+                .emailOrUsername("testuser")
+                .password("Password1!")
+                .build();
+
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.token").value("jwt-login-token"))
+                .andExpect(jsonPath("$.username").value("testuser"));
+    }
+
+    @Test
     void login_avecMauvaisesCredentials_retourne401() throws Exception {
         when(authService.login(any()))
                 .thenThrow(new BadCredentialsException("Bad credentials"));
@@ -96,6 +121,23 @@ class AuthControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.message").value("Invalid email/username or password"));
+    }
+
+    @Test
+    void login_avecCorpsVide_retourne400() throws Exception {
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    // ─── logout ───────────────────────────────────────────────────────────────
+
+    @Test
+    void logout_doitRetourner200AvecMessage() throws Exception {
+        mockMvc.perform(post("/api/auth/logout"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("User logged out successfully"));
     }
 }
 
