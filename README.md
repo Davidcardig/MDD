@@ -3,7 +3,38 @@
 
 Ce projet est une application complète de gestion d'utilisateurs avec authentification JWT, développée avec Spring Boot (backend) et Angular (frontend).
 
-### Installation
+---
+
+## 🐳 Démarrage avec Docker Compose (recommandé)
+
+### Prérequis
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+### Lancement
+
+```bash
+docker compose up --build
+```
+
+| Service   | URL                          |
+|-----------|------------------------------|
+| Frontend  | http://localhost:4200        |
+| Backend   | http://localhost:8080        |
+| Swagger   | http://localhost:8080/swagger-ui/index.html |
+
+### Arrêt
+
+```bash
+docker compose down
+```
+
+> Pour repartir d'une base de données vierge : `docker compose down -v`
+
+---
+
+## 🛠️ Installation manuelle
+
+### Backend
 
 ```bash
 cd back
@@ -24,19 +55,11 @@ spring.datasource.url=jdbc:mysql://localhost:3306/mdd_db?createDatabaseIfNotExis
 spring.datasource.username=root
 spring.datasource.password=votre_mot_de_passe
 
-jwt.secret=VotreCléSecrèteDe256BitsMinimum
+jwt.secret=VotreCléSecrète
 jwt.expiration=86400000
 ```
 
-## 💻 Frontend - Angular
-
-### Technologies
-- **Angular 14**
-- **Angular Material 14**
-- **RxJS 7**
-- **TypeScript 4.7**
-
-### Installation
+### Frontend
 
 ```bash
 cd front
@@ -49,6 +72,16 @@ npm start
 ```
 
 L'application sera accessible sur `http://localhost:4200`
+
+---
+
+## 💻 Frontend - Angular
+
+### Technologies
+- **Angular 14**
+- **Angular Material 14**
+- **RxJS 7**
+- **TypeScript 4.7**
 
 ### Pages
 
@@ -72,47 +105,6 @@ Ajoute automatiquement le token JWT aux requêtes HTTP
 
 - **AuthGuard** : Protège les routes nécessitant une authentification
 - **UnauthGuard** : Empêche l'accès aux pages login/register si déjà connecté
-
----
-
-## 🚀 Démarrage rapide
-
-### 1. Base de données MySQL
-
-```sql
--- La base de données sera créée automatiquement au premier lancement
--- Assurez-vous que MySQL est démarré sur le port 3306
-```
-
-### 2. Backend
-
-```bash
-cd back
-.\mvnw.cmd spring-boot:run
-```
-
-Le backend démarrera sur `http://localhost:8080`
-
-### 3. Frontend
-
-```bash
-cd front
-npm install
-npm start
-```
-
-Le frontend démarrera sur `http://localhost:4200`
-
-### 4. Tester l'application
-
-1. Accédez à `http://localhost:4200`
-2. Cliquez sur "S'inscrire"
-3. Créez un compte avec :
-   - Email valide
-   - Nom d'utilisateur (3-50 caractères)
-   - Mot de passe (min. 6 caractères)
-4. Vous serez automatiquement connecté
-5. Testez la déconnexion
 
 ---
 
@@ -154,6 +146,7 @@ Le frontend démarrera sur `http://localhost:4200`
 - Guards pour protéger les routes
 - Intercepteur HTTP pour ajouter le token
 
+---
 
 ## 📦 Versions des dépendances principales
 
@@ -175,7 +168,3 @@ Le frontend démarrera sur `http://localhost:4200`
 ## 📄 Licence
 
 © 2026 - David Cardigos
-
----
-
-
