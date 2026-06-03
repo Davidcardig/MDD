@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [ main, develop ]
 
-# ─────────────────────────────────────────────────────────────────────────────
-# JOB 1 — Tests & couverture backend (Spring Boot / Java 17)
-# ─────────────────────────────────────────────────────────────────────────────
 jobs:
   backend-tests:
     runs-on: ubuntu-latest
@@ -32,7 +29,6 @@ jobs:
           echo "JWT_SECRET=ci-test-secret-key-minimum-64-characters-long-for-hmac-sha256-algorithm" >> $GITHUB_ENV
           echo "JWT_EXPIRATION=86400000"                                              >> $GITHUB_ENV
 
-      # Fix permission denied sur mvnw
       - name: Rendre mvnw exécutable
         run: chmod +x back/mvnw
 
@@ -46,16 +42,16 @@ jobs:
           cd back
           mvn jacoco:report
 
-      - name: Archivage du rapport JaCoCo
+      - name: Archivage des résultats de build backend
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: jacoco-report
-          path: back/target/site/jacoco/
+          name: backend-build
+          path: |
+            back/target/site/jacoco/
+            back/target/classes/
+            back/target/surefire-reports/
 
-  # ─────────────────────────────────────────────────────────────────────────────
-  # JOB 2 — Tests & couverture frontend (Angular / Jest)
-  # ─────────────────────────────────────────────────────────────────────────────
   frontend-tests:
     runs-on: ubuntu-latest
     name: Frontend Tests & Coverage
@@ -78,49 +74,13 @@ jobs:
           cd front
           npm test -- --watchAll=false --passWithNoTests --ci --coverage
 
-      - name: Archivage du rapport de couverture Jest
+      - name: Archivage des résultats de tests frontend
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: jest-coverage-report
+          name: frontend-coverage
           path: front/coverage/
 
-  # ─────────────────────────────────────────────────────────────────────────────
-  # JOB 3 — Résumé des rapports de couverture
-  # ─────────────────────────────────────────────────────────────────────────────
-  coverage-report:
-    runs-on: ubuntu-latest
-    name: Coverage Report Summary
-    needs: [ backend-tests, frontend-tests ]
-    if: always()
-
-    steps:
-      - name: Téléchargement du rapport backend
-        uses: actions/download-artifact@v4
-        with:
-          name: jacoco-report
-          path: backend-coverage
-
-      - name: Téléchargement du rapport frontend
-        uses: actions/download-artifact@v4
-        with:
-          name: jest-coverage-report
-          path: frontend-coverage
-
-      - name: Affichage du résumé
-        run: |
-          echo "=== Backend Coverage Report ==="
-          if [ -f backend-coverage/index.html ]; then
-            echo "JaCoCo report generated successfully"
-          fi
-          echo "=== Frontend Coverage Report ==="
-          if [ -f frontend-coverage/lcov.info ]; then
-            echo "Jest coverage report generated successfully"
-          fi
-
-  # ─────────────────────────────────────────────────────────────────────────────
-  # JOB 4 — Analyse SonarCloud — Backend
-  # ─────────────────────────────────────────────────────────────────────────────
   sonar-backend:
     name: SonarCloud Analysis - Backend
     runs-on: ubuntu-latest
@@ -153,21 +113,26 @@ jobs:
           echo "JWT_SECRET=ci-test-secret-key-minimum-64-characters-long-for-hmac-sha256-algorithm" >> $GITHUB_ENV
           echo "JWT_EXPIRATION=86400000"                                               >> $GITHUB_ENV
 
+      - name: Téléchargement des résultats de build backend
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-build
+          path: back/target
+
       - name: Analyse SonarCloud Backend
         run: |
           cd back
-          mvn compile sonar:sonar \
+          mvn sonar:sonar \
             -Dsonar.projectKey=mdd-api-backend \
             -Dsonar.organization=davidcardig \
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.token=${{ secrets.SONAR_TOKEN_MDD }} \
             -Dsonar.sources=src/main/java \
+            -Dsonar.tests=src/test/java \
             -Dsonar.java.binaries=target/classes \
-            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+            -Dsonar.junit.reportPaths=target/surefire-reports
 
-  # ─────────────────────────────────────────────────────────────────────────────
-  # JOB 5 — Analyse SonarCloud — Frontend
-  # ─────────────────────────────────────────────────────────────────────────────
   sonar-frontend:
     name: SonarCloud Analysis - Frontend
     runs-on: ubuntu-latest
@@ -187,13 +152,24 @@ jobs:
       - name: Installation des dépendances
         run: cd front && npm ci
 
-      # Même approche que ton ancien pipeline qui fonctionnait
+      - name: Téléchargement des résultats de tests frontend
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-coverage
+          path: front/coverage
+
       - name: Analyse SonarCloud Frontend
         run: |
           docker run --rm \
             -e SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }} \
             -e SONAR_TOKEN=${{ secrets.SONAR_TOKEN_MDD }} \
-            -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=mdd-frontend -Dsonar.organization=davidcardig -Dsonar.sources=src -Dsonar.tests=src -Dsonar.test.inclusions=**/*.spec.ts -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts" \
+            -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=mdd-frontend \
+              -Dsonar.organization=davidcardig \
+              -Dsonar.sources=src \
+              -Dsonar.tests=src \
+              -Dsonar.test.inclusions=**/*.spec.ts \
+              -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info \
+              -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts" \
             -v "${{ github.workspace }}/front":/usr/src \
             -w /usr/src \
             sonarsource/sonar-scanner-cli
