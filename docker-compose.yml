@@ -1,0 +1,49 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mdd-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mdd_db
+      MYSQL_USER: mdd_user
+      MYSQL_PASSWORD: mdd_password
+    ports:
+    - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    container_name: mdd-backend
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/mdd_db?createDatabaseIfNotExist=true
+      DB_USERNAME: mdd_user
+      DB_PASSWORD: mdd_password
+      JWT_SECRET: 5ht8th7rg8fge8ef74egeg45eh9ehg98eh74rh94rh94h9rh9rh6dada9
+      JWT_EXPIRATION: 86400000
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: on-failure
+
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    container_name: mdd-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
