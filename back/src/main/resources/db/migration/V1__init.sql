@@ -56,3 +56,8 @@ CREATE TABLE user_theme_subscriptions (
                                           CONSTRAINT FKd8r57t5way96iy4wv0x7x671v FOREIGN KEY (user_id) REFERENCES users (id),
                                           CONSTRAINT FKge9lxngeepnofc4raf41ivwgi FOREIGN KEY (theme_id) REFERENCES themes (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+INSERT INTO themes (title, description, created_at, updated_at) VALUES
+('Java', 'Tout sur le langage Java : POO, Spring, Maven et bonnes pratiques.', NOW(), NOW()),
+('JavaScript', 'Actualités et discussions autour de JavaScript, Node.js et les frameworks front.', NOW(), NOW()),
+('PHP', 'Développement web avec PHP, Laravel, Symfony et gestion de bases de données.', NOW(), NOW()),
+('DevOps', 'CI/CD, Docker, Kubernetes, cloud et automatisation des déploiements.', NOW(), NOW());
